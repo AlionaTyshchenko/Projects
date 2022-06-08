@@ -22,5 +22,27 @@ export class PostsService {
       }))
   }
 
+  getAllPosts(): Observable<Post[]> {
+    return this.http.get(`${environment.fbDbUrl}/posts.json`)
+      .pipe( map( (response: {[key:string]: any}) => {
+        return Object.keys(response)
+          .map( key => ({
+            ...response[key],
+            id: key,
+            date: new Date(response[key].date)
+          }))
+      }))
+  }
+
+  getById(id:any){
+    return this.http.get(`${environment.fbDbUrl}/posts/${id}.json`)
+    .pipe(map( (post:any) => {
+      return {
+        ...post,id,
+        date: new Date(post.date)
+      } 
+    }))
+  }
+
 
 }
