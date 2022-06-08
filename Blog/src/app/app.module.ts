@@ -9,6 +9,10 @@ import { MainLayoutComponent } from './shared/components/main-layout/main-layout
 import { PostPageComponent } from './post-page/post-page.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { AuthInterceptor } from './admin/shared/components/services/auth.interceptor';
+import { registerLocaleData } from '@angular/common';
+import uaLocale from '@angular/common/locales/ru-UA'
+
+registerLocaleData(uaLocale,'ua')
 
 const INTERCEPTOR_Provider: Provider ={
   provide:HTTP_INTERCEPTORS,
@@ -24,7 +28,7 @@ const INTERCEPTOR_Provider: Provider ={
     HomePageComponent
   ],
   imports: [
-  BrowserModule,
+    BrowserModule,
     AppRoutingModule,
     SharedModule
   ],

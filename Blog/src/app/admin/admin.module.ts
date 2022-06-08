@@ -7,10 +7,12 @@ import { CreatePageComponent } from './create-page/create-page.component';
 import { DashboardPageComponent } from './dashboard-page/dashboard-page.component';
 import { PostComponent } from './shared/components/post/post.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { AuthService } from "./shared/components/services/auth.service";
 import { SharedModule } from './shared/shared.module';
 import { AuthGuard } from './shared/components/services/auth.guard';
 import { SearchPipe } from './shared/components/services/search.pipe';
+import { AlertService } from './shared/components/services/alert.service';
+import { BrowserModule } from '@angular/platform-browser';
+import { AlertComponent } from './shared/components/alert/alert.component';
 
 
 @NgModule({
@@ -21,8 +23,9 @@ import { SearchPipe } from './shared/components/services/search.pipe';
     CreatePageComponent,
     DashboardPageComponent,
     PostComponent,
-    SearchPipe
-  ],
+    SearchPipe,
+    AlertComponent
+    ],
   imports:[
     CommonModule,
     FormsModule,
@@ -39,7 +42,7 @@ import { SearchPipe } from './shared/components/services/search.pipe';
     ])
   ],
   exports:[RouterModule],
-  providers: [AuthGuard]
+  providers: [AuthGuard,AlertService]
 })
 
 export class AdminModule{}
