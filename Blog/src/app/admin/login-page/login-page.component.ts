@@ -21,6 +21,7 @@ export class LoginPageComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    
     this.route.queryParams.subscribe( (params) => {
       if(params['loginAgain']) {
         this.message = 'Пожалуйста введите данные'
@@ -28,6 +29,7 @@ export class LoginPageComponent implements OnInit {
         this.message = 'Сессия истекла. Введите данные заново'
       }
     })
+
     this.form = new FormGroup( {
       email: new FormControl ( null, [
         Validators.required, 
