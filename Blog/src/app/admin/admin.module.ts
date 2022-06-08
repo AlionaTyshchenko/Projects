@@ -5,13 +5,11 @@ import { AdminLayoutComponent } from './shared/components/admin-layout/admin-lay
 import { LoginPageComponent } from "./login-page/login-page.component";import { EditPageComponent } from './edit-page/edit-page.component';
 import { CreatePageComponent } from './create-page/create-page.component';
 import { DashboardPageComponent } from './dashboard-page/dashboard-page.component';
-import { PostComponent } from './shared/components/post/post.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SharedModule } from './shared/shared.module';
 import { AuthGuard } from './shared/components/services/auth.guard';
 import { SearchPipe } from './shared/components/services/search.pipe';
 import { AlertService } from './shared/components/services/alert.service';
-import { BrowserModule } from '@angular/platform-browser';
 import { AlertComponent } from './shared/components/alert/alert.component';
 
 
@@ -22,7 +20,6 @@ import { AlertComponent } from './shared/components/alert/alert.component';
     EditPageComponent,
     CreatePageComponent,
     DashboardPageComponent,
-    PostComponent,
     SearchPipe,
     AlertComponent
     ],

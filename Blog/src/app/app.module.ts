@@ -1,16 +1,17 @@
 import { NgModule, Provider } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { SharedModule } from './admin/shared/shared.module';
-
+import uaLocale from '@angular/common/locales/ru-UA'
+import { registerLocaleData } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { AppComponent } from './app.component';
 import { MainLayoutComponent } from './shared/components/main-layout/main-layout.component';
 import { PostPageComponent } from './post-page/post-page.component';
 import { HomePageComponent } from './home-page/home-page.component';
+import { PostComponent } from './admin/shared/components/post/post.component';
 import { AuthInterceptor } from './admin/shared/components/services/auth.interceptor';
-import { registerLocaleData } from '@angular/common';
-import uaLocale from '@angular/common/locales/ru-UA'
 
 registerLocaleData(uaLocale,'ua')
 
@@ -25,10 +26,11 @@ const INTERCEPTOR_Provider: Provider ={
     AppComponent,
     MainLayoutComponent,
     PostPageComponent,
-    HomePageComponent
+    HomePageComponent,
+    PostComponent
   ],
   imports: [
-    BrowserModule,
+  BrowserModule,
     AppRoutingModule,
     SharedModule
   ],
