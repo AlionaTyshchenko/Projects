@@ -5,6 +5,7 @@ import uaLocale from '@angular/common/locales/ru-UA'
 import { registerLocaleData } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { AppComponent } from './app.component';
 import { MainLayoutComponent } from './shared/components/main-layout/main-layout.component';
@@ -12,7 +13,6 @@ import { PostPageComponent } from './post-page/post-page.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { PostComponent } from './admin/shared/components/post/post.component';
 import { AuthInterceptor } from './admin/shared/components/services/auth.interceptor';
-import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
 registerLocaleData(uaLocale,'ua')
