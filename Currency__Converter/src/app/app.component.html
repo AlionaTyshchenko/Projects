@@ -27,27 +27,48 @@
     <form [formGroup]="form">
       <div class="drop-list">
         <div class="from">
+
           <p>From</p>
             <div class="input-group mb-3">
-              <select class="input-group-text" #mySelectFrom  (change)="changeFrom(mySelectFrom.value)">
-                <option *ngFor="let key of keysCountry">{{key}}</option  >
+              <select class="input-group-text" 
+                  #mySelectFrom  (change)="changeFrom(mySelectFrom.value)">
+
+                <option *ngFor="let key of keysCountry;let i = index" 
+                  [selected]="i == 0">{{key}}</option>
               </select>
               <span class="input-group-text">
               </span>
-              <input type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)" 
-              (keyup)="exchangeFrom($event)"
-              formControlName="value">
+              <input type="text" 
+              class="form-control" aria-label="Dollar amount (with dot and two decimal places)" 
+              formControlName="valueFrom"
+              [(ngModel)]="firstValue"
+              (keyup)="exchangeFrom()"
+              value={{changedInputSecond}}
+              >
             </div>
+
+            <!-- <span class="validation" *ngIf="form.get('value')?.invalid">Oh no no it`s not a number</span> -->
+
             <p>To</p>
             <div class="input-group">
-              <input type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)" formControlName="value" 
-              value={{valueFrom}} >
-              <select class="input-group-text"  #mySelectTo  (change)="changeTo(mySelectTo.value)">
-                <option  *ngFor="let key of keysCountry">{{key}}</option>
+              <input type="text" appInputTo
+               class="form-control" aria-label="Dollar amount (with dot and two decimal places)" 
+              formControlName="valueTo" 
+              [(ngModel)]="secondValue"
+              (keyup)="exchangeTo()"
+              value={{changedInputFirst}}
+              >
+
+              <select class="input-group-text"
+              #mySelectTo  (change)="changeTo(mySelectTo.value)"
+              >
+                <option  *ngFor="let key of keysCountry;let i = index" 
+                [selected]="i == 1">{{key}}</option>
               </select>
               <span class="input-group-text">0.00</span>
             </div>
           </div>
+
         </div>
     </form>
   </div>

@@ -1,24 +1,25 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule} from '@angular/common/http'
 
 import { AppComponent } from './app.component';
-import { ExchangeService } from './services/exchange.service';
-import { ExchangeRateService } from './services/exchange-rate.service';
-
+import { InpComponent } from './inp/inp.component';
+import { InputDirective } from './input.directive';
+import { SecondInpDirective } from './second-inp.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
+    InpComponent,
+    InputDirective,
+    SecondInpDirective
   ],
   imports: [
-  BrowserModule,
+    BrowserModule,
     FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule
+    ReactiveFormsModule
   ],
-  providers: [ExchangeService, ExchangeRateService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

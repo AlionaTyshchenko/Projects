@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable, switchMap } from 'rxjs';
-import { ApiRate, Country } from './interfaces';
+import { Observable } from 'rxjs';
+import { ApiRate} from '../interfaces';
 
 
 @Injectable({
