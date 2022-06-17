@@ -9,5 +9,5 @@ export interface ApiRate {
 
 export interface Country {
   name: string,
-  currencyCode: number
+  currencyCode: number,
 }

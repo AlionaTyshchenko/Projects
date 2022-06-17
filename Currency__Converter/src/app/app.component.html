@@ -15,10 +15,11 @@
 </head>
 <body>
   <header>
-    <div class="euro" >
+    <h3>Current exchange rate for hryvnia</h3>
+    <div>
       {{euro?.rateBuy | currency:'EUR' }}/ {{euro?.rateSell | currency:'EUR' }}
     </div>
-    <div class="usd">
+    <div>
       {{usd?.rateBuy | currency }}/ {{usd?.rateSell | number: '2.4'| currency }}
     </div>
   </header>
@@ -31,41 +32,42 @@
           <p>From</p>
             <div class="input-group mb-3">
               <select class="input-group-text" 
-                  #mySelectFrom  (change)="changeFrom(mySelectFrom.value)">
+                #FirstSelectedItem  
+                (change)="getFirstSelectedCodeCountry(FirstSelectedItem.value)">
 
-                <option *ngFor="let key of keysCountry;let i = index" 
-                  [selected]="i == 0">{{key}}</option>
+                <option   
+                  *ngFor="let key of keysCountry;let i = index" 
+                  [selected]="i == 0">{{key}}
+                </option>
               </select>
-              <span class="input-group-text">
-              </span>
-              <input type="text" 
-              class="form-control" aria-label="Dollar amount (with dot and two decimal places)" 
-              formControlName="valueFrom"
+              <input type="number" 
+              class="form-control" 
+              aria-label="Dollar amount (with dot and two decimal places)" 
+              formControlName="inputValue"
               [(ngModel)]="firstValue"
-              (keyup)="exchangeFrom()"
+              (keyup)="exchangeCurrencyForPurchase()"
               value={{changedInputSecond}}
               >
             </div>
-
-            <!-- <span class="validation" *ngIf="form.get('value')?.invalid">Oh no no it`s not a number</span> -->
-
+            
             <p>To</p>
             <div class="input-group">
-              <input type="text" appInputTo
-               class="form-control" aria-label="Dollar amount (with dot and two decimal places)" 
-              formControlName="valueTo" 
+              <input type="text" 
+              class="form-control" 
+              aria-label="Dollar amount (with dot and two decimal places)" 
+              formControlName="inputValue" 
               [(ngModel)]="secondValue"
-              (keyup)="exchangeTo()"
+              (keyup)="exchangeCurrencyForSale()"
               value={{changedInputFirst}}
               >
 
               <select class="input-group-text"
-              #mySelectTo  (change)="changeTo(mySelectTo.value)"
+              #SecondSelectedItem  
+              (change)="getSecondSelectedCodeCountry(SecondSelectedItem.value)"
               >
                 <option  *ngFor="let key of keysCountry;let i = index" 
                 [selected]="i == 1">{{key}}</option>
               </select>
-              <span class="input-group-text">0.00</span>
             </div>
           </div>
 

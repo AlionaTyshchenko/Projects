@@ -5,7 +5,6 @@ import { HttpClientModule} from '@angular/common/http'
 
 import { AppComponent } from './app.component';
 import { ExchangeService } from './services/exchange.service';
-import { ExchangeRateService } from './services/exchange-rate.service';
 
 
 @NgModule({
@@ -18,7 +17,7 @@ import { ExchangeRateService } from './services/exchange-rate.service';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [ExchangeService, ExchangeRateService],
+  providers: [ExchangeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

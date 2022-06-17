@@ -8,20 +8,22 @@
 }
 
 body{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
   min-height: 100vh;
   padding: 0 10px;
   background: #675AFE;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 header{
   display: flex;
   align-items: center;
   justify-content: space-around;
-  width: 400px;
+  max-width: 100%;
   border-radius: 7px;
   padding: 20px;
   background-color: #fff;
@@ -29,14 +31,10 @@ header{
   font-size: 18px;
 }
 
-::selection{
-  color: #fff;
-  background: #675AFE;
-}
-
 .wrapper{
-  width: 800px;
+  max-width: 800px;
   padding: 30px;
+  margin: 20vh auto;
   border-radius: 7px;
   background: #fff;
   box-shadow: 7px 7px 20px rgba(0, 0, 0, 0.05);
@@ -78,8 +76,15 @@ header{
 }
 
 
-.validation {
-  font-size: 18px;
-  border: 2px solid #dc3545;
+.invalid {
+  border: 1px solid #dc3545;
   padding: 0 10px;
+
+  .form-control:focus{
+    border: 1px solid #dc3545;
+  }
+}
+
+img{
+  max-width: 25px;
 }

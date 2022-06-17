@@ -1,8 +1,8 @@
 import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { CheckboxControlValueAccessor, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ExchangeService } from './services/exchange.service';
-import { ApiRate } from './interfaces';
+import { ApiRate, Country } from './interfaces';
 
 @Component({
   selector: 'app-root',
@@ -15,13 +15,9 @@ export class AppComponent  implements OnInit, OnDestroy{
   usd?: ApiRate
   euro?: ApiRate
   aSub!:Subscription
-  valueRate!:any
   form!: FormGroup
-  keysCountry!:any
-  rate?: ApiRate  
-  $event:any
-  
-  
+  keysCountry!: Array<string>
+  rate?: ApiRate    
   
   firstValue?: any
   secondValue?:any
@@ -31,15 +27,15 @@ export class AppComponent  implements OnInit, OnDestroy{
   changedInputSecond:any
 
 
-  countryCode =[
+  countries: Country[]=[
     {name: 'UAH', currencyCode: 980},
     {name:'USD', currencyCode: 840},
     {name: 'EUR', currencyCode: 978}
   ]
   
-  countryCodeFirst = this.countryCode[0].name
-  countryCodeSecond = this.countryCode[1].name
-  
+  countryCodeFirst = this.countries[0].name
+  countryCodeSecond = this.countries[1].name
+
   constructor(
     private exchangeService: ExchangeService
     ){}
@@ -51,32 +47,29 @@ export class AppComponent  implements OnInit, OnDestroy{
         this.usd = this.exchangeService.getRate(this.rates, this.getCurrencyCode('USD'), this.getCurrencyCode('UAH'))
         this.euro = this.exchangeService.getRate(this.rates, this.getCurrencyCode('EUR'), this.getCurrencyCode('UAH'))
         this.calcRate()
-        console.log(this.usd?.rateSell)
       })
       
       this.form = new FormGroup({
-        valueFrom: new FormControl('', Validators.pattern('/[0-9\ ]/')),
-        valueTo:new FormControl('', Validators.pattern('/[0-9\ ]/'))
-
+        inputValue: new FormControl('', Validators.pattern('[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)')),
       })
       
-      this.keysCountry = this.countryCode.map((item:any) => item.name)
+      this.keysCountry = this.countries.map((item:any) => item.name)
     } 
     
     ngOnDestroy(): void {
       this.aSub.unsubscribe()
     }
 
-    changeFrom(value:string) {
+    getFirstSelectedCodeCountry(value:string) {
       this.countryCodeFirst = value
       this.calcRate()
-      this.exchangeFrom()
+      this.exchangeCurrencyForPurchase()
     }
 
-    changeTo(value:string) {
+    getSecondSelectedCodeCountry(value:string) {
       this.countryCodeSecond = value
       this.calcRate()
-      this.exchangeFrom()
+      this.exchangeCurrencyForPurchase()
     }
 
     calcRate(){
@@ -87,68 +80,55 @@ export class AppComponent  implements OnInit, OnDestroy{
       let codeB = this.getCurrencyCode(this.countryCodeSecond)
       
       this.rate = this.exchangeService.getRate(this.rates, codeA, codeB)
-      console.log(this.rate, codeA, codeB)
     }
-
+  
     getCurrencyCode(name:string) {
-      return  this.countryCode.find(item => item.name === name)!.currencyCode;
+      return  this.countries.find(item => item.name === name)!.currencyCode;
     }
 
-    exchangeFrom(){
+    exchangeCurrencyForPurchase(){
       this.inputFirstValue = +this.firstValue
-      console.log(this.countryCodeFirst, this.countryCodeSecond)
 
-      if(this.countryCodeFirst === this.countryCodeSecond){
+      if( !isNaN(this.inputFirstValue) ){
+
+        if(this.countryCodeFirst === this.countryCodeSecond){
         this.changedInputFirst = this.inputFirstValue
         return
-      }
-        if(this.rate?.rateSell != null) {
+        }
+        if(this.rate?.rateSell != null && this.rate?.rateBuy != null) {
 
           if(this.rate.currencyCodeA === this.getCurrencyCode(this.countryCodeFirst) ) {
-            this.changedInputFirst = this.inputFirstValue  * this.rate?.rateSell
+            this.changedInputFirst = (this.inputFirstValue  * this.rate?.rateBuy).toFixed(4)
           } else {
-            this.changedInputFirst = this.inputFirstValue  / this.rate?.rateSell
+            this.changedInputFirst = (this.inputFirstValue  / this.rate?.rateSell).toFixed(4)
           }
-        } 
+        }
+      }else {
+        this.inputFirstValue = ''
+      }
     }
 
-    exchangeTo(){
+    exchangeCurrencyForSale(){
       this.inputSecondValue = +this.secondValue
 
-      if(this.countryCodeFirst === this.countryCodeSecond){
-        this.changedInputSecond = this.inputSecondValue
-        return
+      if( !isNaN(this.inputSecondValue) ){
+
+        if(this.countryCodeFirst === this.countryCodeSecond){
+          this.changedInputSecond = this.inputSecondValue
+          return
+        }
+        if(this.rate?.rateSell != null && this.rate?.rateBuy != null) {
+
+          if(this.rate.currencyCodeA == this.getCurrencyCode(this.countryCodeFirst)){
+            this.changedInputSecond = (this.inputSecondValue / this.rate.rateBuy).toFixed(4)
+          } else {
+            this.changedInputSecond= (this.inputSecondValue * this.rate?.rateSell).toFixed(4)
+          }
+        } 
+      } else{
+        this.inputSecondValue = ''
       }
-      if(this.rate?.rateSell != null) {
-
-         if(this.rate.currencyCodeA == this.getCurrencyCode(this.countryCodeFirst)){
-          this.changedInputSecond = this.inputSecondValue / this.rate.rateSell
-         } else {
-          this.changedInputSecond= this.inputSecondValue * this.rate?.rateSell
-         }
-
-      } 
-
     }
-    // exchangeTo($event:any) {
-    //   console.log($event.target.value)
-    //   if(this.rate?.rateCross != null) {
-    //     this.valueTo = $event.target.value * this.rate?.rateCross  
-    //   } else if(this.rate?.rateBuy != null) {
-    //     this.valueTo = $event.target.value * this.rate?.rateBuy
-
-    //       if(this.selectedValueTo === this.selectedValueTo ) {
-    //         this.valueTo = $event.target.value / this.rate?.rateBuy
-    //       } 
-    //     } 
-    //   }
-
-    // exchangeTo($event: any) {
-    //   if(this.rate?.rateCross != null) {
-    //         this.valueTo = $event.target.value * this.rate?.rateCross  
-    //         console.log(this.valueTo)
-    //       }
-    // }
 }
 
 
