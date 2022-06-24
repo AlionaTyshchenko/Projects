@@ -40,6 +40,9 @@
                   [selected]="i == 0">{{key}}
                 </option>
               </select>
+              <span class="input-group-text">
+                <img src={{flagCountryFirst}} >
+              </span>
               <input type="number" 
               class="form-control" 
               aria-label="Dollar amount (with dot and two decimal places)" 
@@ -60,7 +63,9 @@
               (keyup)="exchangeCurrencyForSale()"
               value={{changedInputFirst}}
               >
-
+              <span class="input-group-text">
+                <img src={{flagCountrySecond}}>
+              </span>
               <select class="input-group-text"
               #SecondSelectedItem  
               (change)="getSecondSelectedCodeCountry(SecondSelectedItem.value)"

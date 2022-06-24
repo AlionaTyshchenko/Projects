@@ -25,16 +25,21 @@ export class AppComponent implements OnInit, OnDestroy {
   inputSecondValue: any
   changedInputFirst: any
   changedInputSecond: any
-
+  flags:any
 
   countries: Country[] = [
-    { name: 'UAH', currencyCode: 980 },
-    { name: 'USD', currencyCode: 840 },
-    { name: 'EUR', currencyCode: 978 }
+    { name: 'UAH', currencyCode: 980, 
+    flag: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Flag_of_Ukraine.svg/250px-Flag_of_Ukraine.svg.png'},
+    { name: 'USD', currencyCode: 840, 
+    flag:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/250px-Flag_of_the_United_States.svg.png'},
+    { name: 'EUR', currencyCode: 978, 
+    flag: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/250px-Flag_of_Europe.svg.png' }
   ]
 
   countryCodeFirst = this.countries[0].name
   countryCodeSecond = this.countries[1].name
+  flagCountryFirst = this.countries[0].flag
+  flagCountrySecond = this.countries[1].flag
 
   constructor(
     private exchangeService: ExchangeService
@@ -62,14 +67,24 @@ export class AppComponent implements OnInit, OnDestroy {
 
   getFirstSelectedCodeCountry(value: string) {
     this.countryCodeFirst = value
+    this.getFlagFirst(value)
     this.calcRate()
     this.exchangeCurrencyForPurchase()
   }
 
   getSecondSelectedCodeCountry(value: string) {
     this.countryCodeSecond = value
+    this.getFlagSecond(value)
     this.calcRate()
     this.exchangeCurrencyForPurchase()
+  }
+
+  getFlagFirst(country:any){
+    this.flagCountryFirst = this.countries.find(item => item.name === country)!.flag;
+  }
+
+  getFlagSecond(country:any){
+    this.flagCountrySecond = this.countries.find(item => item.name === country)!.flag;
   }
 
   calcRate() {
